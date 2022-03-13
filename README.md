@@ -42,9 +42,9 @@ use FilippoToso\URI\URI;
 $url = 'http://www.example.com/dir/sub/file.php?name=john&emailjohn@smith.com';
 
 $newUrl = URI::make($url)
-    ->scheme('http')
-    ->domain('test.com')
-    ->url();
+    ->scheme('https') // Changes the url to: https://www.example.com/dir/sub/file.php?name=john&emailjohn@smith.com
+    ->domain('test.com') // Changes the url to: https://test.com/dir/sub/file.php?name=john&emailjohn@smith.com
+    ->url();  
 
 ```
 
@@ -77,7 +77,7 @@ $url = 'http://www.example.com/dir/sub/file.php?name=john&emailjohn@smith.com';
 $relativeUrl = '../../hello.php';
 
 $newUrl = URI::make($url)
-    ->relative($relativeUrl)
+    ->relative($relativeUrl) // Changes the url to: http://www.example.com/hello.php?name=john&emailjohn@smith.com
     ->url();
 
 ```
