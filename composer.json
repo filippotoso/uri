@@ -1,0 +1,17 @@
+{
+    "name": "filippo-toso/uri",
+    "description": "A simple class to easily manipulate URLs.",
+    "license": "MIT",
+    "authors": [{
+        "name": "Filippo Toso",
+        "email": "filippo.toso@creativepark.it"
+    }],
+    "require": {
+        "php": "^7.2 || ^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FilippoToso\\URI\\": "src"
+        }
+    }
+}
