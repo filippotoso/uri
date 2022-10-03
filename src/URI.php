@@ -15,6 +15,7 @@ namespace FilippoToso\URI;
 class URI
 {
     protected const PROPERTIES = ['scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'];
+    protected const DEFAULT_SCHEME = 'https';
 
     protected $original;
 
@@ -69,6 +70,8 @@ class URI
      */
     public function parse($url)
     {
+        $url = $this->protocolRelative($url);
+
         $this->original = $url;
 
         $parsed = parse_url($url);
@@ -82,6 +85,17 @@ class URI
         $this->parseQuery();
 
         return $this;
+    }
+
+    protected function protocolRelative($url)
+    {
+        // Handle urls that starts with ://
+        if (strpos($url, '://') === 0) {
+            $scheme = $this->scheme ?? static::DEFAULT_SCHEME;
+            $url = $scheme . $url;
+        }
+
+        return $url;
     }
 
     protected function parseQuery()
@@ -111,6 +125,7 @@ class URI
     {
         // It's a full URL
         if (strpos($url, '://') !== false) {
+            $url = $this->protocolRelative($url);
             return $this->make($url);
         }
 
