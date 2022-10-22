@@ -15,7 +15,8 @@ namespace FilippoToso\URI;
 class URI
 {
     protected const PROPERTIES = ['scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'];
-    protected const DEFAULT_SCHEME = 'https';
+    protected const HTTPS_SCHEME = 'https';
+    protected const DEFAULT_SCHEME = self::HTTPS_SCHEME;
 
     protected $original;
 
@@ -98,6 +99,22 @@ class URI
         return $url;
     }
 
+    protected function protocolAndPathRelative($url)
+    {
+        // Handle urls that starts with :///
+        if (strpos($url, ':///') === 0) {
+            $scheme = $this->scheme ?? static::DEFAULT_SCHEME;
+
+            if (is_null($this->port)) {
+                $url = $scheme . '://' . $this->host . substr($url, 3);
+            } else {
+                $url = $scheme . '://' . $this->host . ':' . $this->port . substr($url, 3);
+            }
+        }
+
+        return $url;
+    }
+
     protected function parseQuery()
     {
         parse_str($this->query, $this->params);
@@ -123,7 +140,13 @@ class URI
      */
     public function relative(string $url)
     {
-        // It's a full URL
+        // It's a schemeless relative URL
+        if (strpos($url, ':///') !== false) {
+            $url = $this->protocolAndPathRelative($url);
+            return $this->make($url);
+        }
+
+        // It's a full URL without scheme
         if (strpos($url, '://') !== false) {
             $url = $this->protocolRelative($url);
             return $this->make($url);
