@@ -412,7 +412,7 @@ class URI
      */
     public function url()
     {
-        $result = $this->scheme . '://';
+        $result = !is_null($this->scheme) ? $this->scheme . '://' : '';
 
         if (!is_null($this->user) && !is_null($this->pass)) {
             $result .= urlencode($this->user) . ':' . urlencode($this->pass) . '@';
