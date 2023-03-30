@@ -117,7 +117,7 @@ class URI
 
     protected function parseQuery()
     {
-        parse_str($this->query, $this->params);
+        parse_str((string)$this->query, $this->params);
     }
 
     /**
@@ -310,10 +310,22 @@ class URI
      * @param string $key The key in dot notation
      * @return URI
      */
-    public function get(string $key)
+    public function get(string $key, $default = null)
+    {
+        return $this->dot($key, $this->params, function ($key, &$array) use ($default) {
+            return $array[$key] ?? $default;
+        });
+    }
+
+    /**
+     * Check if a parameter exists in the querystring parameters
+     *
+     * @return boolean
+     */
+    public function has(string $key): bool
     {
         return $this->dot($key, $this->params, function ($key, &$array) {
-            return $array[$key];
+            return array_key_exists($key, $array);
         });
     }
 
