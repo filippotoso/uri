@@ -228,7 +228,7 @@ class URI
      * Get / set the querystring parameters
      *
      * @param array $value
-     * @return URI
+     * @return URI|array
      */
     public function params(array $value = [])
     {
