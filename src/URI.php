@@ -420,7 +420,7 @@ class URI
     /**
      * Render the new url
      *
-     * @return void
+     * @return string
      */
     public function url()
     {
