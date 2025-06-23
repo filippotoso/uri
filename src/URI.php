@@ -203,7 +203,7 @@ class URI
      * @param string $extension
      * @return URI
      */
-    public function extension(string $extension = null)
+    public function extension(?string $extension = null)
     {
         $pos = strrpos($this->path, '.');
 
